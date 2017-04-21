@@ -1,6 +1,10 @@
 const electron = require('electron')
 // Require to make it auto reload when files changes
-require('electron-reload')(__dirname)
+const path = require('path')
+require('electron-reload')(__dirname, {
+  electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
+  hardResetMethod: 'exit'
+});
 // Module to control application life.
 const app = electron.app
 // Module to create native browser window.
@@ -13,7 +17,7 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   // webPreferences added with nodeIntegration False to make RequireJS works in the app
-  mainWindow = new BrowserWindow({width: 1600, height: 768})
+  mainWindow = new BrowserWindow({width: 800, height: 600})
 
   // and load the index.html of the app.
   //mainWindow.loadURL(`file://${__dirname}/views/preprocessing/run2.html`)
