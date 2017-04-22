@@ -64,14 +64,15 @@
                 <div class="col-md-12">
                     <div class="input-group">
                         <span class="input-group-addon" id="basic-addon1">Target Folder:</span>
-                        <input id="targetF" type="text" class="form-control" placeholder="Browse folder to be copy to..." ng-model="targetFolder" readonly ng-value="fileSettings.outfolder">
+                        <input id="targetF" type="text" class="form-control" placeholder="Browse folder to be copy to..." ng-model="targetFolder" readonly>
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="getFolderDir(2)">Browse</button>
                         </span>
                     </div>
                 </div>
                 <div class="col-md-12 text-center">
-                    <button type="button" class="btn btn-primary" ng-click="StartWatcher()">Copy & Compress</button>
+                    <button type="button" class="btn btn-primary" ng-click="initApp()">Copy & Compress</button>
+                    <button type="button" class="btn btn-primary" ng-click="resetLog()">Save & Clear Results</button>
                 </div>
             </div>
         </div>
@@ -82,9 +83,6 @@
                     <ul>
                         <li ng-repeat="line in outputLines"><span class="{{line.tcolor}}">{{line.message}}</span></li>
                     </ul>
-                </div>
-                <div class="col-md-12 text-center">
-                    <button type="button" class="btn btn-primary" ng-click="resetLog()">Save & Clear Results</button>
                 </div>
             </div>
         </div>
