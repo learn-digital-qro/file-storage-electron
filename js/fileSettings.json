@@ -1,7 +1,7 @@
 [{
-"exts": ["xlsx","pptx"],
+"exts": ["js","html"],
 "outext": "tar.gz",
-"outfolder": "",
+"outfolder": "../file-storage-electron",
 "reftag": "Reference Number",
 "projtag": "Project ID"
 }]

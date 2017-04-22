@@ -8,65 +8,58 @@ scriptApp.controller('scriptController',function($scope,$http){
     });
 
     $scope.outputLines = [];
+    $scope.selectedLines = [];
     $scope.hideoutput = true;
     $scope.textExtensions="";
 
     var chokidar = require('chokidar');
     var fs = require('fs');
+    var nodePath = require('path');
     var watcher = null;
+
+    var convertToPath = function(pathString){
+        return nodePath.join(pathString,'')
+    };
+
+    var checkInputs = function(fname){
+        ext = fname.substr(fname.lastIndexOf('.')+1);
+        return ($scope.fileSettings.exts.indexOf(ext) > -1);
+    };
 
     $scope.init = function(fileSettings) {
         $scope.fileSettings = fileSettings;
+        $scope.targetFolder = convertToPath($scope.fileSettings.outfolder);
     };
 
     $scope.StartWatcher = function(){
-
-        path=$scope.sourceFolder;
-
-        watcher = chokidar.watch(path, {
+        pathName=$scope.targetFolder;
+        console.log();
+        watcher = chokidar.watch(pathName, {
             ignored: /[\/\\]\./,
             persistent: true
         });
-
         function onWatcherReady(){
-            $scope.hideoutput = false;
-            console.info('From here can you check for real changes, the initial scan has been completed.');
+            console.info('Initial scan has been completed.');
             watcher.close();
-            $scope.$apply();
         }
-
         watcher
-        .on('add', function(path) {
-            console.log('File', path, 'has been review');
-            $scope.addLog("File: "+path,"new");
-        })
-        .on('addDir', function(path) {
-            console.log('Directory', path, 'has been review');
-            $scope.addLog("Folder: "+path,"new");
-        })
-        .on('change', function(path) {
-            console.log('File', path, 'has been changed');
-            $scope.addLog("A change ocurred : "+path,"change");
-        })
-        .on('unlink', function(path) {
-            console.log('File', path, 'has been removed');
-            $scope.addLog("A file was deleted : "+path,"delete");
-        })
-        .on('unlinkDir', function(path) {
-            console.log('Directory', path, 'has been removed');
-            $scope.addLog("A folder was deleted : "+path,"delete");
+        .on('add', function(pathName) {
+            if (checkInputs(pathName)) {
+                console.log('File', pathName, 'has been selected');
+                $scope.addLog("File: "+pathName,"selected");
+                $scope.saveLog(pathName);
+            } else {
+                console.log('File', pathName, 'has been review');
+                $scope.addLog("File: "+pathName,"new");
+            };
+            $scope.$apply();
         })
         .on('error', function(error) {
             console.log('Error happened', error);
             $scope.addLog("An error ocurred: ","delete");
-            console.log(error);
         })
-        .on('ready', onWatcherReady)
-        .on('raw', function(event, path, details) {
-            // This event should be triggered everytime something happens.
-            console.log('Raw event info:', event, path, details);
-        });
-    }
+        .on('ready', onWatcherReady);
+    };
 
     $scope.getFolderDir = function(idLabel) {
         const {dialog} = require('electron').remote;
@@ -78,7 +71,6 @@ scriptApp.controller('scriptController',function($scope,$http){
                     $scope.sourceFolder=path;
                 } else if (idLabel==2) {
                     $scope.targetFolder=path;
-                    console.log(path);
                 }
                 $scope.$apply();
             }else {
@@ -90,24 +82,31 @@ scriptApp.controller('scriptController',function($scope,$http){
     $scope.resetLog = function(){
         $scope.hideoutput = true;
         $scope.outputLines= [];
+        $scope.selectedLines= [];
     };
 
     $scope.addLog = function(message,type){
-        if(type == "delete"){
-            ttcolor = "text-danger";
-        }else if(type == "change"){
-            ttcolor = "text-primary";
+        if(type == "selected"){
+            ttcolor = "bg-primary";
         }else{
-            ttcolor = "text-success";
-        }
+            ttcolor = "text-muted";
+        };
         $scope.outputLines.push({
             message:message,
             tcolor:ttcolor
         });
-        $scope.hideoutput = true;
-        $scope.$apply();
+    };
+
+    $scope.saveLog = function(path){
+        $scope.selectedLines.push({
+            path:path
+        });
     }
 
-    $scope.init();
+    $scope.initApp = function() {
+        $scope.hideoutput = false;
+        $scope.StartWatcher();
+    };
+
 
 });
