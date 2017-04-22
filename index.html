@@ -34,22 +34,62 @@
             </div>
         </div>
     </nav>
-    <div class="container theme-showcase" role="main">
+    <div class="container-fluid">
         <div class="jumbotron">
-            <h3>File Storage Application</h3>
-
-            <button type="button" class="btn btn-md btn-default">Start Folder</button>
-            <input class="btn" id="startFolderButton">Start Folder</input>
-            <div id="startFolder"></div>
-            <br>
-            <div id="endFolder"></div>
-            <button type="button" id="endFolderButton">End Folder</button>
-
-            <button type="button" id="stop" style="display:none;">Stop watching</button>
-            <br>
-            <button type="button" onclick="resetLog();">Reset log</button>
-            <span id="messageLogger"></span>
-            <ul id="log-container"></ul>
+            <h2>Instructions</h2>
+            <p>Please enter the folder to be copy from, and then the folder to be copy to.  You will need to add the project name (this will set-up the folder name in the target directory).</p>
+            <p>By default, the extensions to be stored are: *.db, *.rst, *.ppt*, *.xls*</p>
+            <p>All files will be compress (*.z) at the target directory.</p>
+        </div>
+        <div class="page-header">
+            <h3>Inputs</h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Project Name:</span>
+                        <input type="text" class="form-control" ng-model="projectName">
+                        <span class="input-group-addon" id="basic-addon1">DRB Number:</span>
+                        <input type="text" class="form-control" ng-model="drbNumber">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Source Folder:</span>
+                        <input type="text" class="form-control" placeholder="Browse folder to be copy from..." ng-model="sourceFolder" readonly>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default">Browse</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Target Folder:</span>
+                        <input type="text" class="form-control" placeholder="Browse folder to be copy to..." ng-model="targetFolder" readonly>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default">Browse</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button type="button" class="btn btn-primary">Copy & Compress</button>
+                </div>
+            </div>
+        </div>
+        <div class="page-header">
+            <h3>Results</h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul>
+                        <li>File 1</li>
+                        <li>File 2</li>
+                        <li>File 3</li>
+                        <li>File 4</li>
+                    </ul>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button type="button" class="btn btn-primary">Save File Output</button>
+                </div>
+            </div>
         </div>
     </div>
 </body>
