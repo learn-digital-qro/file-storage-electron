@@ -7,19 +7,21 @@ scriptApp.controller('scriptController',function($scope,$http){
         $scope.init(res.data[0]);
     });
 
+    $scope.outputLines = [];
+    $scope.hideoutput = true;
     $scope.textExtensions="";
+
     var chokidar = require('chokidar');
     var fs = require('fs');
     var watcher = null;
-    var showInLogFlag = false;
 
     $scope.init = function(fileSettings) {
         $scope.fileSettings = fileSettings;
     };
 
-    function StartWatcher(path){
-        document.getElementById("start").disabled = true;
-        document.getElementById("messageLogger").innerHTML = "Scanning the path, please wait ...";
+    $scope.StartWatcher = function(){
+
+        path=$scope.sourceFolder;
 
         watcher = chokidar.watch(path, {
             ignored: /[\/\\]\./,
@@ -27,55 +29,37 @@ scriptApp.controller('scriptController',function($scope,$http){
         });
 
         function onWatcherReady(){
+            $scope.hideoutput = false;
             console.info('From here can you check for real changes, the initial scan has been completed.');
-            showInLogFlag = true;
-            document.getElementById("stop").style.display = "block";
-            document.getElementById("messageLogger").innerHTML = "The path is now being watched";
+            watcher.close();
+            $scope.$apply();
         }
 
         watcher
         .on('add', function(path) {
-            console.log('File', path, 'has been added');
-
-            if(showInLogFlag){
-                addLog("File added : "+path,"new");
-            }
+            console.log('File', path, 'has been review');
+            $scope.addLog("File: "+path,"new");
         })
         .on('addDir', function(path) {
-            console.log('Directory', path, 'has been added');
-
-            if(showInLogFlag){
-                addLog("Folder added : "+path,"new");
-            }
+            console.log('Directory', path, 'has been review');
+            $scope.addLog("Folder: "+path,"new");
         })
         .on('change', function(path) {
             console.log('File', path, 'has been changed');
-
-            if(showInLogFlag){
-                addLog("A change ocurred : "+path,"change");
-            }
+            $scope.addLog("A change ocurred : "+path,"change");
         })
         .on('unlink', function(path) {
             console.log('File', path, 'has been removed');
-
-            if(showInLogFlag){
-                addLog("A file was deleted : "+path,"delete");
-            }
+            $scope.addLog("A file was deleted : "+path,"delete");
         })
         .on('unlinkDir', function(path) {
             console.log('Directory', path, 'has been removed');
-
-            if(showInLogFlag){
-                addLog("A folder was deleted : "+path,"delete");
-            }
+            $scope.addLog("A folder was deleted : "+path,"delete");
         })
         .on('error', function(error) {
             console.log('Error happened', error);
-
-            if(showInLogFlag){
-                addLog("An error ocurred: ","delete");
-                console.log(error);
-            }
+            $scope.addLog("An error ocurred: ","delete");
+            console.log(error);
         })
         .on('ready', onWatcherReady)
         .on('raw', function(event, path, details) {
@@ -84,37 +68,44 @@ scriptApp.controller('scriptController',function($scope,$http){
         });
     }
 
-    getFolderDir = function(idText) {
+    $scope.getFolderDir = function(idLabel) {
         const {dialog} = require('electron').remote;
         dialog.showOpenDialog({
             properties: ['openDirectory']
         },function(path){
             if(path){
-                $("#"+idText).value=path[0];
+                if (idLabel==1) {
+                    $scope.sourceFolder=path;
+                } else if (idLabel==2) {
+                    $scope.targetFolder=path;
+                    console.log(path);
+                }
+                $scope.$apply();
             }else {
                 console.log("No path selected");
             }
         });
     };
 
-    function resetLog(){
-        return document.getElementById("log-container").innerHTML = "";
-    }
+    $scope.resetLog = function(){
+        $scope.hideoutput = true;
+        $scope.outputLines= [];
+    };
 
-    function addLog(message,type){
-        var el = document.getElementById("log-container");
-        var newItem = document.createElement("LI");       // Create a <li> node
-        var textnode = document.createTextNode(message);  // Create a text node
+    $scope.addLog = function(message,type){
         if(type == "delete"){
-            newItem.style.color = "red";
+            ttcolor = "text-danger";
         }else if(type == "change"){
-            newItem.style.color = "blue";
+            ttcolor = "text-primary";
         }else{
-            newItem.style.color = "green";
+            ttcolor = "text-success";
         }
-
-        newItem.appendChild(textnode);                    // Append the text to <li>
-        el.appendChild(newItem);
+        $scope.outputLines.push({
+            message:message,
+            tcolor:ttcolor
+        });
+        $scope.hideoutput = true;
+        $scope.$apply();
     }
 
     $scope.init();
