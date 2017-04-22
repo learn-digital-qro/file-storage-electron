@@ -13,6 +13,7 @@
   ],
   "homepage": "https://github.com/learn-digital-qro/file-storage-electron",
   "dependencies": {
-    "angular": "^1.6.4"
+    "angular": "^1.6.4",
+    "bootstrap": "boostrap#^3.3.7"
   }
 }

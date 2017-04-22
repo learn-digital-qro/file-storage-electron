@@ -1,10 +1,56 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>El titulo</title>
-    </head>
-    <body>
-        El cuerpo
-    </body>
+<head ng-app>
+    <meta charset="UTF-8">
+    <title>File Storage</title>
+    <!-- Start Style -->
+    <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap-theme.css">
+    <!-- Start Bower JS Load -->
+    <script src="./bower_components/jquery/dist/jquery.js" charset="utf-8"></script>
+    <script>window.jQuery || document.write('<script src="./bower_components/jquery/dist/jquery.js"><\/script>')</script>
+    <script src="./bower_components/bootstrap/dist/js/bootstrap.js" charset="utf-8"></script>
+    <script src="./bower_components/angular/angular.js" charset="utf-8"></script>
+    <!-- Start App JS -->
+    <script src="./js/script.js" charset="utf-8"></script>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data.toggle="collapse" data-target="#navbar" aria-expand="false" aria-contols="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><span>File Storage <small><i>powered by</i> ADT Stress & Life </small></span></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container theme-showcase" role="main">
+        <div class="jumbotron">
+            <h3>File Storage Application</h3>
+
+            <button type="button" class="btn btn-md btn-default">Start Folder</button>
+            <input class="btn" id="startFolderButton">Start Folder</input>
+            <div id="startFolder"></div>
+            <br>
+            <div id="endFolder"></div>
+            <button type="button" id="endFolderButton">End Folder</button>
+
+            <button type="button" id="stop" style="display:none;">Stop watching</button>
+            <br>
+            <button type="button" onclick="resetLog();">Reset log</button>
+            <span id="messageLogger"></span>
+            <ul id="log-container"></ul>
+        </div>
+    </div>
+</body>
 </html>
