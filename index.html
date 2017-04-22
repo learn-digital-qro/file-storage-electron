@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head ng-app>
+<head>
     <meta charset="UTF-8">
     <title>File Storage</title>
     <!-- Start Style -->
@@ -14,7 +14,7 @@
     <!-- Start App JS -->
     <script src="./js/script.js" charset="utf-8"></script>
 </head>
-<body>
+<body ng-app="scriptApp" ng-controller="scriptController">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -36,19 +36,19 @@
     </nav>
     <div class="container-fluid">
         <div class="jumbotron">
-            <h2>Instructions</h2>
-            <p>Please enter the folder to be copy from, and then the folder to be copy to.  You will need to add the project name (this will set-up the folder name in the target directory).</p>
-            <p>By default, the extensions to be stored are: *.db, *.rst, *.ppt*, *.xls*</p>
-            <p>All files will be compress (*.z) at the target directory.</p>
+            <div class="page-header">
+                <h2>Instructions</h2>
+                <p>Please enter the folder to be copy from, and then the folder to be copy to.  You will need to add the project name (this will set-up the folder name in the target directory).<br>By default, the extensions to be stored are: {{fileSettings.exts.join(", ")}}.<br>All files will be compress (*.{{fileSettings.outext}}) at the target directory.</p>
+            </div>
         </div>
         <div class="page-header">
             <h3>Inputs</h3>
             <div class="row">
                 <div class="col-md-12">
                     <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Project Name:</span>
+                        <span class="input-group-addon" id="basic-addon1">{{fileSettings.projtag}}:</span>
                         <input type="text" class="form-control" ng-model="projectName">
-                        <span class="input-group-addon" id="basic-addon1">DRB Number:</span>
+                        <span class="input-group-addon" id="basic-addon1">{{fileSettings.reftag}}:</span>
                         <input type="text" class="form-control" ng-model="drbNumber">
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                 <div class="col-md-12">
                     <div class="input-group">
                         <span class="input-group-addon" id="basic-addon1">Target Folder:</span>
-                        <input type="text" class="form-control" placeholder="Browse folder to be copy to..." ng-model="targetFolder" readonly>
+                        <input type="text" class="form-control" placeholder="Browse folder to be copy to..." ng-model="targetFolder" readonly ng-value="fileSettings.outfolder">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default">Browse</button>
                         </span>
