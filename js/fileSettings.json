@@ -1,0 +1,7 @@
+[{
+"exts": ["xlsx","pptx"],
+"outext": "tar.gz",
+"outfolder": "",
+"reftag": "Reference Number",
+"projtag": "Project ID"
+}]

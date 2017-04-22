@@ -1,10 +1,93 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>El titulo</title>
-    </head>
-    <body>
-        El cuerpo
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>File Storage</title>
+    <!-- Start Style -->
+    <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap-theme.css">
+    <!-- Start Bower JS Load -->
+    <script src="./bower_components/jquery/dist/jquery.js" charset="utf-8"></script>
+    <script>window.jQuery || document.write('<script src="./bower_components/jquery/dist/jquery.js"><\/script>')</script>
+    <script src="./bower_components/bootstrap/dist/js/bootstrap.js" charset="utf-8"></script>
+    <script src="./bower_components/angular/angular.js" charset="utf-8"></script>
+    <!-- Start App JS -->
+    <script src="./js/script.js" charset="utf-8"></script>
+</head>
+<body ng-app="scriptApp" ng-controller="scriptController">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data.toggle="collapse" data-target="#navbar" aria-expand="false" aria-contols="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><span>File Storage <small><i>powered by</i> ADT Stress & Life </small></span></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="jumbotron">
+            <div class="page-header">
+                <h2>Instructions</h2>
+                <p>Please enter the folder to be copy from, and then the folder to be copy to.  You will need to add the project name (this will set-up the folder name in the target directory).<br>By default, the extensions to be stored are: {{fileSettings.exts.join(", ")}}.<br>All files will be compress (*.{{fileSettings.outext}}) at the target directory.</p>
+            </div>
+        </div>
+        <div class="page-header">
+            <h3>Inputs</h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">{{fileSettings.projtag}}:</span>
+                        <input type="text" class="form-control" ng-model="projectName">
+                        <span class="input-group-addon" id="basic-addon1">{{fileSettings.reftag}}:</span>
+                        <input type="text" class="form-control" ng-model="drbNumber">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Source Folder:</span>
+                        <input id="sourceF" type="text" class="form-control" placeholder="Browse folder to be copy from..." ng-model="sourceFolder" readonly>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="getFolderDir(1)">Browse</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Target Folder:</span>
+                        <input id="targetF" type="text" class="form-control" placeholder="Browse folder to be copy to..." ng-model="targetFolder" readonly ng-value="fileSettings.outfolder">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="getFolderDir(2)">Browse</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button type="button" class="btn btn-primary" ng-click="StartWatcher()">Copy & Compress</button>
+                </div>
+            </div>
+        </div>
+        <div class="page-header" ng-hide="hideoutput == true">
+            <h3>Results</h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul>
+                        <li ng-repeat="line in outputLines"><span class="{{line.tcolor}}">{{line.message}}</span></li>
+                    </ul>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button type="button" class="btn btn-primary" ng-click="resetLog()">Save & Clear Results</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
