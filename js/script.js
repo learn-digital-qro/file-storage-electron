@@ -8,6 +8,7 @@ scriptApp.controller('scriptController',function($scope,$http){
     });
 
     $scope.outputLines = [];
+    $scope.selectedLines = [];
     $scope.hideoutput = true;
     $scope.textExtensions="";
 
@@ -46,6 +47,7 @@ scriptApp.controller('scriptController',function($scope,$http){
             if (checkInputs(pathName)) {
                 console.log('File', pathName, 'has been selected');
                 $scope.addLog("File: "+pathName,"selected");
+                $scope.saveLog(pathName);
             } else {
                 console.log('File', pathName, 'has been review');
                 $scope.addLog("File: "+pathName,"new");
@@ -80,6 +82,7 @@ scriptApp.controller('scriptController',function($scope,$http){
     $scope.resetLog = function(){
         $scope.hideoutput = true;
         $scope.outputLines= [];
+        $scope.selectedLines= [];
     };
 
     $scope.addLog = function(message,type){
@@ -91,6 +94,12 @@ scriptApp.controller('scriptController',function($scope,$http){
         $scope.outputLines.push({
             message:message,
             tcolor:ttcolor
+        });
+    };
+
+    $scope.saveLog = function(path){
+        $scope.selectedLines.push({
+            path:path
         });
     }
 
