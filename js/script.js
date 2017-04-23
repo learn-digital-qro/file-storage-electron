@@ -163,7 +163,7 @@ scriptApp.controller('scriptController',function($scope,$http){
     };
 
     $scope.saveLog = function(path){
-        $scope.selectedLines.push(path);
+        $scope.selectedLines.push(path.replace($scope.sourceFolder+"\\",""));
     }
 
     $scope.initApp = function() {
