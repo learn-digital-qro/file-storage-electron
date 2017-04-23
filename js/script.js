@@ -61,7 +61,6 @@ scriptApp.controller('scriptController',function($scope,$http){
 
     $scope.startInputs = function(fields){
         for (i = 0; i < fields.length; ++i) {
-            console.log("entre");
             $("#"+fields[i].id).removeClass("has-error");
         };
     };
@@ -123,6 +122,8 @@ scriptApp.controller('scriptController',function($scope,$http){
         $scope.hideoutput = true;
         $scope.outputLines= [];
         $scope.selectedLines= [];
+        $scope.startInputs($scope.requiredInputs);
+        $scope.init($scope.fileSettings);
     };
 
     $scope.addLog = function(message,type){
