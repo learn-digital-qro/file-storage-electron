@@ -1,7 +1,7 @@
 [{
 "exts": ["js","html","md"],
 "outext": "tar.gz",
-"outfolder": "../file-storage-electron",
+"outfolder": "D:/Users/210046799/Documents/Work/TestCases/fileStorage",
 "reftag": "Reference Number",
 "projtag": "Project ID"
 }]

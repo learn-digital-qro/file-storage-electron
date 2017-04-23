@@ -20,6 +20,7 @@ scriptApp.controller('scriptController',function($scope,$http){
     var chokidar = require('chokidar');
     var fs = require('fs');
     var nodePath = require('path');
+    var targz = require('targz');
     var watcher = null;
 
     var convertToPath = function(pathString){
@@ -57,6 +58,22 @@ scriptApp.controller('scriptController',function($scope,$http){
 
     $scope.warnInput = function(id){
         $("#"+id).addClass("has-error");
+    };
+
+    $scope.compressFiles = function(){
+        targz.compress({
+            src: $scope.sourceFolder,
+            dest: $scope.destinyFolder,
+            tar: {
+                entries = $scope.selectedLines
+            }
+        }, function(err){
+            if(err) {
+                console.log(err);
+            } else {
+                console.log("Done!");
+            }
+        });
     };
 
     $scope.startInputs = function(fields){
