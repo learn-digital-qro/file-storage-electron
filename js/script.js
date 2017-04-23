@@ -42,8 +42,14 @@ scriptApp.controller('scriptController',function($scope,$http){
         };
     };
 
+    var createFileName = function(){
+        return $scope.projectName.replace(" ","_")+".tar.gz"
+    };
+
     var checkInputs = function(){
         if (checkFields($scope.requiredInputs)) {
+            finalFileName=createFileName();
+            $scope.destinyFolder=nodePath.join($scope.targetFolder,finalFileName);
             $scope.StartWatcher($scope.sourceFolder);
             return true
         } else {
@@ -65,7 +71,7 @@ scriptApp.controller('scriptController',function($scope,$http){
             src: $scope.sourceFolder,
             dest: $scope.destinyFolder,
             tar: {
-                entries = $scope.selectedLines
+                entries: $scope.selectedLines,
             }
         }, function(err){
             if(err) {
@@ -97,6 +103,7 @@ scriptApp.controller('scriptController',function($scope,$http){
         function onWatcherReady(){
             console.info('Initial scan has been completed.');
             watcher.close();
+            $scope.compressFiles();
         }
         watcher
         .on('add', function(pathName) {
@@ -124,9 +131,9 @@ scriptApp.controller('scriptController',function($scope,$http){
         },function(path){
             if(path){
                 if (idLabel==1) {
-                    $scope.sourceFolder=path;
+                    $scope.sourceFolder=path[0];
                 } else if (idLabel==2) {
-                    $scope.targetFolder=path;
+                    $scope.targetFolder=path[0];
                 }
                 $scope.$apply();
             }else {
@@ -156,9 +163,7 @@ scriptApp.controller('scriptController',function($scope,$http){
     };
 
     $scope.saveLog = function(path){
-        $scope.selectedLines.push({
-            path:path
-        });
+        $scope.selectedLines.push(path);
     }
 
     $scope.initApp = function() {
@@ -169,6 +174,5 @@ scriptApp.controller('scriptController',function($scope,$http){
             $scope.hideoutput = true;
         }
     };
-
 
 });
