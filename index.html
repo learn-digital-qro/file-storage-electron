@@ -76,7 +76,7 @@
                 </div>
                 <div class="col-md-12 text-center">
                     <button type="button" class="btn btn-primary" ng-click="initApp()">Copy & Compress</button>
-                    <button type="button" class="btn btn-primary" ng-click="resetLog()">Save & Clear Results</button>
+                    <button type="button" class="btn btn-primary" ng-click="resetLog()">Clear All</button>
                 </div>
             </div>
         </div>
@@ -92,7 +92,7 @@
                     <div class="col-md-6">
                         <ul>
                             <span class="bg-success">Selected Files:</span>
-                            <li ng-repeat="line in selectedLines">{{line.path}}</li>
+                            <li ng-repeat="line in selectedLines">{{line}}</li>
                         </ul>
 
                     </div>
