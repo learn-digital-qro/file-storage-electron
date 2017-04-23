@@ -11,6 +11,11 @@ scriptApp.controller('scriptController',function($scope,$http){
     $scope.selectedLines = [];
     $scope.hideoutput = true;
     $scope.textExtensions="";
+    $scope.requiredInputs=[
+        {name:$scope.projtag,id:"idProjTag",model:"projectName"},
+        {name:"Source Folder",id:"idSource",model:"sourceFolder"},
+        {name:"Target Folder",id:"idTarget",model:"targetFolder"}
+    ];
 
     var chokidar = require('chokidar');
     var fs = require('fs');
@@ -21,19 +26,54 @@ scriptApp.controller('scriptController',function($scope,$http){
         return nodePath.join(pathString,'')
     };
 
-    var checkInputs = function(fname){
+    var checkFields = function(fields){
+        $scope.checkInputsMissing = [];
+        for (i = 0; i < fields.length; ++i) {
+            if ($scope[fields[i].model]=="") {
+                $scope.warnInput(fields[i].id);
+                $scope.checkInputsMissing.push(fields[i].name);
+            };
+        };
+        if ($scope.checkInputsMissing.length > 0) {
+            return false
+        } else {
+            return true
+        };
+    };
+
+    var checkInputs = function(){
+        if (checkFields($scope.requiredInputs)) {
+            $scope.StartWatcher($scope.sourceFolder);
+            return true
+        } else {
+            return false
+        }
+    };
+
+    var checkFiles = function(fname){
         ext = fname.substr(fname.lastIndexOf('.')+1);
         return ($scope.fileSettings.exts.indexOf(ext) > -1);
+    };
+
+    $scope.warnInput = function(id){
+        $("#"+id).addClass("has-error");
+    };
+
+    $scope.startInputs = function(fields){
+        for (i = 0; i < fields.length; ++i) {
+            console.log("entre");
+            $("#"+fields[i].id).removeClass("has-error");
+        };
     };
 
     $scope.init = function(fileSettings) {
         $scope.fileSettings = fileSettings;
         $scope.targetFolder = convertToPath($scope.fileSettings.outfolder);
+        $scope.projectName = "";
+        $scope.sourceFolder = "";
     };
 
-    $scope.StartWatcher = function(){
-        pathName=$scope.targetFolder;
-        console.log();
+    $scope.StartWatcher = function(pathName){
         watcher = chokidar.watch(pathName, {
             ignored: /[\/\\]\./,
             persistent: true
@@ -44,7 +84,7 @@ scriptApp.controller('scriptController',function($scope,$http){
         }
         watcher
         .on('add', function(pathName) {
-            if (checkInputs(pathName)) {
+            if (checkFiles(pathName)) {
                 console.log('File', pathName, 'has been selected');
                 $scope.addLog("File: "+pathName,"selected");
                 $scope.saveLog(pathName);
@@ -104,8 +144,12 @@ scriptApp.controller('scriptController',function($scope,$http){
     }
 
     $scope.initApp = function() {
-        $scope.hideoutput = false;
-        $scope.StartWatcher();
+        $scope.startInputs($scope.requiredInputs);
+        if (checkInputs() == true) {
+            $scope.hideoutput = false;
+        } else {
+            $scope.hideoutput = true;
+        }
     };
 
 

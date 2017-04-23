@@ -44,27 +44,31 @@
         <div class="page-header">
             <h3>Inputs</h3>
             <div class="row">
-                <div class="col-md-12">
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">{{fileSettings.projtag}}:</span>
+                <div class="col-md-6">
+                    <div class="input-group" id="idProjTag">
+                        <span class="input-group-addon">{{fileSettings.projtag}}:</span>
                         <input type="text" class="form-control" ng-model="projectName">
-                        <span class="input-group-addon" id="basic-addon1">{{fileSettings.reftag}}:</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group" id="idRefTag">
+                        <span class="input-group-addon">{{fileSettings.reftag}}:</span>
                         <input type="text" class="form-control" ng-model="drbNumber">
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Source Folder:</span>
-                        <input id="sourceF" type="text" class="form-control" placeholder="Browse folder to be copy from..." ng-model="sourceFolder" readonly>
+                    <div class="input-group" id="idSource">
+                        <span class="input-group-addon">Source Folder:</span>
+                        <input type="text" class="form-control" placeholder="Browse folder to be copy from..." ng-model="sourceFolder" readonly>
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="getFolderDir(1)">Browse</button>
                         </span>
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Target Folder:</span>
-                        <input id="targetF" type="text" class="form-control" placeholder="Browse folder to be copy to..." ng-model="targetFolder" readonly>
+                    <div class="input-group" id="idTarget">
+                        <span class="input-group-addon">Target Folder:</span>
+                        <input type="text" class="form-control" placeholder="Browse folder to be copy to..." ng-model="targetFolder" readonly>
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="getFolderDir(2)">Browse</button>
                         </span>

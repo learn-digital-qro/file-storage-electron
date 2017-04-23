@@ -1,5 +1,5 @@
 [{
-"exts": ["js","html"],
+"exts": ["js","html","md"],
 "outext": "tar.gz",
 "outfolder": "../file-storage-electron",
 "reftag": "Reference Number",
