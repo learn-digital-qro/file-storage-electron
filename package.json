@@ -1,6 +1,6 @@
 {
   "name": "file-storage-electron",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "File Storage Desktop Application build with Electron",
   "main": "main.js",
   "scripts": {
